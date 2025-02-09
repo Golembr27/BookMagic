@@ -3,6 +3,14 @@ using TMPro;
 
 public class Loja : MonoBehaviour
 {
+    //Para que acesse as variaveis de um outro script
+    public static Loja instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     //Variavel que vai spawnar parete
     public GameObject SpawnDoSlot;
 
@@ -17,78 +25,53 @@ public class Loja : MonoBehaviour
 
     public int NumeroDeSlot = 0;
 
+    public int SlotMaximo = 0;
+
+    public Vector3 PosicaoAtual;
+
+    public Vector3 AlterarY;
+    
     public bool PodeIrAPosicaoY = false;
 
     public int NumeroDeInstacias = 0;
 
-    public Vector3 AtualY;
-
-    public Vector3 AmazenamentoY;
-
-    public bool SpawnPrimeiro = false;
-
     public TextMeshProUGUI TextoDeQuantidadeDeLivro;
-
-    //Para que acesse as variaveis de um outro script
-    public static Loja instance;
-
-    void Awake()
-    {
-        instance = this;
-    }
-    
-    public int LivroTotal = 0;
 
     public void Slot()
     {
         NumeroDeSlot++;
     }
 
-    public void AdicionandoLivroTotal()
+    public void PosicaoDeSpawn()
     {
-        LivroTotal++;
-    }
-
-    public void PosicaoDeSpawnY()
-    {
-        if (SpawnPrimeiro == false)
+        if (NumeroDeInstacias == NumeroDeSlot)
         {
-            SpawnPrimeiro = true;
-            AtualY = SpawnSlot.transform.position;
-        }
-
-        if (PodeIrAPosicaoY == true){
-            PodeIrAPosicaoY = false;
-            AtualY.y = -20f;
-        }
-        else if(PodeIrAPosicaoY == false)
-        {
-            PodeIrAPosicaoY = true;
-            AmazenamentoY = AtualY;
+            PosicaoAtual.y = AlterarY.y + 10f;
         }
         InstaciandoItemDaLoja();
     }
 
     public void LivrosAdiconados()
     {
-        if (LivroTotal == NumeroDeSlot && NumeroDeSlot >= 5)
-        {
-            TextoDeQuantidadeDeLivro.text = $"{NumeroDeSlot}";
-            PosicaoDeSpawnY(); 
-        }
+        TextoDeQuantidadeDeLivro.text = $"{NumeroDeSlot}";
+        PosicaoDeSpawn();
     }
 
     private void InstaciandoItemDaLoja()
     {
         NumeroDeInstacias++;
-        GameObject slot = Instantiate(SlotParaAVenda, AtualY, Quaternion.identity);
+        GameObject slot = Instantiate(SlotParaAVenda, PosicaoAtual, Quaternion.identity);
         slot.transform.parent = SpawnDoSlot.transform;
         slot.transform.localScale = new Vector3(1f, 1f, 1f);
+        if (NumeroDeInstacias != NumeroDeSlot)
+        {
+            InstaciandoItemDaLoja();
+        }
     }
 
     private void Start()
     {
-        SpawnPrimeiro = false;
-        AtualY.y = SpawnSlot.transform.position.y;
+        AlterarY.y = PosicaoAtual.y;
+        PosicaoAtual = SpawnSlot.transform.position;
     }
 }
