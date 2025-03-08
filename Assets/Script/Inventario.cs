@@ -182,7 +182,7 @@ public class Inventario : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        girarLivro = FindObjectOfType<GirarLivro>();
+        
 
         //Sempre quando iniciar vai ter sempre 0
         quantidadeDeLivroComumAtual = 0;
@@ -194,8 +194,14 @@ public class Inventario : MonoBehaviour
         quantidadeDeLivroRaro = 0;
     }
 
+    public void ResetarGiro()
+    {
+            Debug.Log("Foi retornado a 0");
+            SlotAtual = 0;
+    }
+
     private void Update()
     {
-
+        
     }
 }

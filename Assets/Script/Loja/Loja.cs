@@ -29,9 +29,15 @@ public class Loja : MonoBehaviour
 
     public Vector3 PosicaoAtual;
 
-    public Vector3 AlterarY;
-    
-    public bool PodeIrAPosicaoY = false;
+    public Vector3 PosicaoAnterior;
+
+    public Vector3 PosicaoAnterior2;
+
+    public float DistanciaDosElementos = 0.4f;
+
+    public bool PodeEntra = false;
+
+    public bool PodeEntra2 = true;
 
     public int NumeroDeInstacias = 0;
 
@@ -44,10 +50,19 @@ public class Loja : MonoBehaviour
 
     public void PosicaoDeSpawn()
     {
-        if (NumeroDeInstacias == NumeroDeSlot)
+        PosicaoAnterior.y = PosicaoAtual.y;
+        if (PodeEntra2 == true)
         {
-            PosicaoAtual.y = AlterarY.y + 10f;
+            PosicaoAtual.y = PosicaoAnterior.y - DistanciaDosElementos;
+
+            PodeEntra2 = false;
+        }else PodeEntra = false;
+       
+        if(PodeEntra == false)
+        {
+            PodeEntra2 = true;
         }
+ 
         InstaciandoItemDaLoja();
     }
 
@@ -65,13 +80,12 @@ public class Loja : MonoBehaviour
         slot.transform.localScale = new Vector3(1f, 1f, 1f);
         if (NumeroDeInstacias != NumeroDeSlot)
         {
-            InstaciandoItemDaLoja();
+            PosicaoDeSpawn();
         }
     }
 
     private void Start()
     {
-        AlterarY.y = PosicaoAtual.y;
         PosicaoAtual = SpawnSlot.transform.position;
     }
 }
