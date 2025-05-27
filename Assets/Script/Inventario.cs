@@ -14,7 +14,7 @@ public class Inventario : MonoBehaviour
 
     Renderer rd;
 
-    //1 é sem transparencia e 0 e com trnasparencia
+    //1 é sem transparencia e 0 e com transparencia
     float corTransparente = 1f; 
 
     public int velocidadeDeCaimento = 5;
@@ -76,6 +76,7 @@ public class Inventario : MonoBehaviour
 
     public void EntrarLivroNaLista()
     {
+        
         if (GirarLivro.instance.numero == 0)//vai acionar se for um livroComum
         {
             if (SlotAtual <= 4)
@@ -85,6 +86,7 @@ public class Inventario : MonoBehaviour
                 quantidadeDeLivroComumAtual = quantidadeDeLivroComum;
                 LivroMemoria = PrefablivroComum;
                 inventario.Add(PrefablivroComum);
+                
                 ColocarNoSlotCerto();
             }
         }
@@ -97,6 +99,7 @@ public class Inventario : MonoBehaviour
                 quantidadeDeLivroNoturnoAtual = quantidadeDeLivroNoturno;
                 LivroMemoria = PrefablivroNoturno;
                 inventario.Add(PrefablivroNoturno);
+                
                 ColocarNoSlotCerto();
             }
         }
@@ -109,6 +112,7 @@ public class Inventario : MonoBehaviour
                 quantidadeDeLivroRaroAtual = quantidadeDeLivroRaro;
                 LivroMemoria = PrefablivroRaro;
                 inventario.Add(LivroMemoria);
+                
                 ColocarNoSlotCerto();
             }
         }
@@ -182,8 +186,6 @@ public class Inventario : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-
         //Sempre quando iniciar vai ter sempre 0
         quantidadeDeLivroComumAtual = 0;
         quantidadeDeLivroNoturnoAtual = 0;
@@ -193,11 +195,11 @@ public class Inventario : MonoBehaviour
         quantidadeDeLivroNoturno = 0;
         quantidadeDeLivroRaro = 0;
     }
-
-    public void ResetarGiro()
+    
+    public void aaaaaaaaa()
     {
-            Debug.Log("Foi retornado a 0");
-            SlotAtual = 0;
+        Debug.Log("Foi retornado a 0");
+        SlotAtual = 0;
     }
 
     private void Update()

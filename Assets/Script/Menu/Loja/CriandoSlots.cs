@@ -1,10 +1,10 @@
 using UnityEngine;
 using TMPro;
 
-public class Loja : MonoBehaviour
+public class CriandoSlots : MonoBehaviour
 {
     //Para que acesse as variaveis de um outro script
-    public static Loja instance;
+    public static CriandoSlots instance;
 
     void Awake()
     {
@@ -31,9 +31,7 @@ public class Loja : MonoBehaviour
 
     public Vector3 PosicaoAnterior;
 
-    public Vector3 PosicaoAnterior2;
-
-    public float DistanciaDosElementos = 0.4f;
+    float DistanciaDosElementos = 10f;
 
     public bool PodeEntra = false;
 
@@ -41,29 +39,40 @@ public class Loja : MonoBehaviour
 
     public int NumeroDeInstacias = 0;
 
+    bool primeiroSloot;
+
     public TextMeshProUGUI TextoDeQuantidadeDeLivro;
 
     public void Slot()
     {
+        VenderLivro.Instance.AtualizacaoDeOutroScriptDarVarDosLivros();
         NumeroDeSlot++;
     }
 
     public void PosicaoDeSpawn()
     {
-        PosicaoAnterior.y = PosicaoAtual.y;
-        if (PodeEntra2 == true)
+        if(primeiroSloot == true)
         {
-            PosicaoAtual.y = PosicaoAnterior.y - DistanciaDosElementos;
+            PosicaoAnterior.y = PosicaoAtual.y;
+            if (PodeEntra2 == true)
+            {
+                PosicaoAtual.y = PosicaoAnterior.y - 0.5f;
 
-            PodeEntra2 = false;
-        }else PodeEntra = false;
-       
-        if(PodeEntra == false)
+                PodeEntra2 = false;
+            }
+            else PodeEntra = false;
+
+            if (PodeEntra == false)
+            {
+                PodeEntra2 = true;
+            }
+
+            InstaciandoItemDaLoja();
+        }else if (primeiroSloot == false)
         {
-            PodeEntra2 = true;
+            primeiroSloot = true;
+            InstaciandoItemDaLoja();
         }
- 
-        InstaciandoItemDaLoja();
     }
 
     public void LivrosAdiconados()
@@ -77,7 +86,7 @@ public class Loja : MonoBehaviour
         NumeroDeInstacias++;
         GameObject slot = Instantiate(SlotParaAVenda, PosicaoAtual, Quaternion.identity);
         slot.transform.parent = SpawnDoSlot.transform;
-        slot.transform.localScale = new Vector3(1f, 1f, 1f);
+        slot.transform.localScale = new Vector3(1f, 0.5f, 1f);
         if (NumeroDeInstacias != NumeroDeSlot)
         {
             PosicaoDeSpawn();
@@ -86,6 +95,7 @@ public class Loja : MonoBehaviour
 
     private void Start()
     {
+        primeiroSloot = false;
         PosicaoAtual = SpawnSlot.transform.position;
     }
 }
